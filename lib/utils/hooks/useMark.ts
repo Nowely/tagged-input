@@ -32,7 +32,8 @@ export interface MarkOptions {
 	controlled?: boolean
 }
 
-//TODO subscribe on external
+//TODO subscribe on label/value changing
+//TODO remove
 export const useMark = <T extends HTMLElement = HTMLElement, >(options: MarkOptions = {}): MarkHandlerP<T> => {
 	const store = useStore()
 	const token = useToken()
@@ -42,6 +43,7 @@ export const useMark = <T extends HTMLElement = HTMLElement, >(options: MarkOpti
 
 	useUncontrolledInit(ref, options, token)
 
+	//Sync for state
 	const readOnly = useStore(state => state.props.readOnly)
 	useEffect(() => {
 		mark.readOnly = readOnly
@@ -55,9 +57,9 @@ type MarkHandlerPConstruct = { ref: RefObject<HTMLElement>; options: MarkOptions
 
 export class MarkHandlerP<T extends HTMLElement = HTMLElement> {
 	ref: RefObject<HTMLElement>
-	#options: MarkOptions
-	#store: Store
-	#token: MarkStruct
+	readonly #options: MarkOptions
+	readonly #store: Store
+	readonly #token: MarkStruct
 
 	readOnly?: boolean
 
@@ -84,9 +86,7 @@ export class MarkHandlerP<T extends HTMLElement = HTMLElement> {
 	}
 
 	remove = () => {
-		/*setLabel('')
-		setValue(undefined)*/
-		this.#store.bus.send(SystemEvent.Delete)
+		this.#store.bus.send(SystemEvent.Delete, {node: this.#token})
 	}
 }
 
