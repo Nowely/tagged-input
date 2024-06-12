@@ -43,6 +43,7 @@ function set(target: Store, prop: keyof Store, newValue: any, receiver: any): bo
 			return false
 	}
 
+	// @ts-expect-error TODO fix type
 	target[prop] = newValue
 	target.bus.send(SystemEvent.STORE_UPDATED, receiver)
 	return true
