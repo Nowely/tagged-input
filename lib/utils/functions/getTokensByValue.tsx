@@ -1,5 +1,4 @@
 import {Store} from '../classes/Store'
-import {Option} from '../../types'
 import {findGap} from './findGap'
 import {getClosestIndexes} from './getClosestIndexes'
 import {Parser} from '../classes/Parser/Parser'
@@ -13,21 +12,24 @@ export function getTokensByValue(store: Store) {
 
 	switch (true) {
 		//Mark removing happen
-		case gap.left && (ranges.includes(gap.left) && gap.right && Math.abs(gap.left - gap.right) > 1):
-			const updatedIndex1 = ranges.indexOf(gap.left)
-			const tokens1 = parseUnionLabels(store, updatedIndex1 - 1, updatedIndex1)
-			return store.tokens.toSpliced(updatedIndex1, 1, ...tokens1)
+		case gap.left && (ranges.includes(gap.left) && gap.right && Math.abs(gap.left - gap.right) > 1): {
+			const updatedIndex = ranges.indexOf(gap.left)
+			const tokens = parseUnionLabels(store, updatedIndex - 1, updatedIndex)
+			return store.tokens.toSpliced(updatedIndex - 1, 2, ...tokens)
+		}
 		//Changing in label
-		case gap.left !== undefined:
+		case gap.left !== undefined: {
 			const [updatedIndex] = getClosestIndexes(ranges, gap.left)
-			const tokens2 = parseUnionLabels(store, updatedIndex)
-			if (tokens2.length === 1) return store.tokens
-			return store.tokens.toSpliced(updatedIndex, 1, ...tokens2)
-		case gap.right !== undefined:
-			const [updatedIndex2] = getClosestIndexes(ranges, gap.right)
-			const tokens3 = parseUnionLabels(store, updatedIndex2)
-			if (tokens3.length === 1) return store.tokens
-			return store.tokens.toSpliced(updatedIndex2, 1, ...tokens3)
+			const tokens = parseUnionLabels(store, updatedIndex)
+			if (tokens.length === 1) return store.tokens
+			return store.tokens.toSpliced(updatedIndex, 1, ...tokens)
+		}
+		case gap.right !== undefined: {
+			const [updatedIndex] = getClosestIndexes(ranges, gap.right)
+			const tokens = parseUnionLabels(store, updatedIndex)
+			if (tokens.length === 1) return store.tokens
+			return store.tokens.toSpliced(updatedIndex, 1, ...tokens)
+		}
 		default:
 			//Parse all string
 			return Parser.split(value ?? '', options)

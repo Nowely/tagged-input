@@ -158,11 +158,11 @@ describe(`Component: ${MarkedInput.name}`, () => {
 
 		let mark = getByText('contain')
 		await user.click(mark)
-		expect(await queryByText('contain')).toBeNull()
+		expect(queryByText('contain')).toBeNull()
 
 		mark = getByText('marks')
 		await user.click(mark)
-		expect(await queryByText('marks')).toBeNull()
+		expect(queryByText('marks')).toBeNull()
 	})
 
 	it('should support editable marks', async () => {

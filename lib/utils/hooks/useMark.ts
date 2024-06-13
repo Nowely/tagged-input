@@ -1,6 +1,7 @@
 import {RefObject, useEffect, useReducer, useRef, useState} from 'react'
 import {SystemEvent} from '../../constants'
 import {MarkStruct} from '../../types'
+import {NodeProxy} from '../classes/NodeProxy'
 import {Store} from '../classes/Store'
 import {useToken} from '../providers/TokenProvider'
 import {useStore} from './useStore'
@@ -86,7 +87,7 @@ export class MarkHandlerP<T extends HTMLElement = HTMLElement> {
 	}
 
 	remove = () => {
-		this.#store.bus.send(SystemEvent.Delete, {node: this.#token})
+		this.#store.bus.send(SystemEvent.Delete, {token: this.#token})
 	}
 }
 

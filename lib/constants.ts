@@ -44,7 +44,7 @@ export const SystemEvent = {
 	CheckTrigger: Symbol() as EventKey,
 	Change: Symbol() as EventKey,
 	Parse: Symbol() as EventKey,
-	Delete: Symbol() as EventKey,
+	Delete: Symbol() as EventKey<{ token: MarkStruct }>,
 	Select: Symbol() as EventKey<{ mark: MarkStruct, match: OverlayMatch }>,
 }
 

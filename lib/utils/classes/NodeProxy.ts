@@ -85,8 +85,12 @@ export class NodeProxy {
 		return this.#store.refs.container.current?.lastChild as HTMLElement
 	}
 
-	constructor(active: Node | EventTarget | null | undefined, store: Store) {
-		this.target = active
+	get isFocused() {
+		return this.target === document.activeElement
+	}
+
+	constructor(target: Node | EventTarget | null | undefined, store: Store) {
+		this.target = target
 		this.#store = store
 	}
 
@@ -98,10 +102,6 @@ export class NodeProxy {
 	focus() {
 		this.target?.focus()
 		return
-	}
-
-	get isFocused() {
-		return this.target === document.activeElement
 	}
 
 	clear() {

@@ -23,6 +23,14 @@ export function useSystemListeners() {
 		//bus.send(SystemEvent.CheckTrigger) TODO check on value change
 	}, [])
 
+	useListener(SystemEvent.Delete, ({token}) => {
+		const {onChange, options} = store.props
+
+		store.tokens.splice(store.tokens.indexOf(token), 1)
+
+		onChange?.(toString(store.tokens, options))
+	}, [])
+
 	useListener(SystemEvent.Parse, (event) => {
 		store.tokens = store.focus.target
 			? getTokensByUI(store)
