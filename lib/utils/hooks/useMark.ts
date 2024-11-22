@@ -86,9 +86,7 @@ export class MarkHandlerP<T extends HTMLElement = HTMLElement> {
 		this.#store.bus.send(SystemEvent.Change, {node: this.#token})
 	}
 
-	remove = () => {
-		this.#store.bus.send(SystemEvent.Delete, {token: this.#token})
-	}
+	remove = () => this.#store.bus.send(SystemEvent.Delete, {token: this.#token})
 }
 
 function useUncontrolledInit(ref: RefObject<HTMLElement>, options: MarkOptions, token: MarkStruct) {
